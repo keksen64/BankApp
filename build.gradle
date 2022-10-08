@@ -1,0 +1,35 @@
+plugins {
+    id 'java'
+}
+
+jar {
+    manifest {
+        // This is where the Main class is specified for launching applications (otherwise the jar will not start)
+        attributes 'Main-Class': 'MainClass'
+    }
+    tasks.withType(JavaCompile){
+        options.encoding = 'windows-1251'
+    }
+
+    // Create fat-jar file
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+
+    // https://mvnrepository.com/artifact/org.xerial/sqlite-jdbc
+    implementation group: 'org.xerial', name: 'sqlite-jdbc', version: '3.36.0'
+
+
+
+}
+
